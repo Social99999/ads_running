@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", serif;
+  padding: 0px;
+  margin: 0px;
+}
+.container-fluid {
+  overflow-x: hidden;
+}
+.dark-mode h1 {
+  color: white;
+}
+.dark-mode .user-p {
+  color: white;
+}
+@media (max-width: 1024px) and (min-width: 375px) {
+  .content {
+    padding: 0px 10px 10px 10px;
+  }
+}
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  /* For example: */
+  .container-fluid {
+    overflow-x: hidden;
+  }
+}
+
+.sidebarWrapper {
+  width: 20px;
+}
+.content {
+  overflow-x: hidden;
+}
+.dark-mode td {
+  color: black;
+}
+.search-btn {
+  width: 400px;
+  height: 61px;
+  border: 1px solid #e6e6e6;
+}
+
+/* Style for the scrollbar */
+::-webkit-scrollbar {
+  width: 5px; /* Set width of the scrollbar */
+}
+
+/* Style for the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: transparent; /* Transparent background for the scrollbar track */
+}
+
+/* Style for the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #221f92; /* Purple color for the scrollbar thumb */
+  border-radius: 10px; /* Optional: Rounded corners for the thumb */
+}
+canvas {
+  background: transparent !important;
+}
