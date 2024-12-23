@@ -12,7 +12,7 @@ import { login } from "../Api/Webapi";
 const Login = ({ Login, setLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const socket = io('https://adsrunning.onrender.com/loginUser', {
+  const socket = io('https://adsrunning.onrender.com', {
     withCredentials: true,
     transports: ['websocket', 'polling']
   });
