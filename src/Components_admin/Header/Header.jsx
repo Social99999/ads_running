@@ -9,7 +9,7 @@ import ReactFlagsSelect from "react-flags-select";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logoutIcon from "../../assets_admin/logo.png";
 import { FaTimes, FaCheck, FaCheckDouble } from "react-icons/fa";
-import { deleteNotification, getAllNotifications, markAllNotificationsAsRead, markNotificationAsRead } from "../Api/Notification";
+// import { deleteNotification, getAllNotifications, markAllNotificationsAsRead, markNotificationAsRead } from "../Api/Notification";
 const Header = ({ toggleThemeMode, themeMode }) => {
   const [selected, setSelected] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -30,64 +30,64 @@ const Header = ({ toggleThemeMode, themeMode }) => {
       setDropdownOpen(false);
     }
   };
-  const handleMarkAsRead = async (notificationId) => {
-    try {
-      const response = await markNotificationAsRead(notificationId);
-      if (response.status) {
-        setNotifications(notifications.map(notification => 
-          notification._id === notificationId 
-            ? { ...notification, isRead: true }
-            : notification
-        ));
-        setUnreadCount(prev => prev - 1);
-      }
-    } catch (error) {
-      console.error("Error marking notification as read:", error);
-    }
-  };
+  // const handleMarkAsRead = async (notificationId) => {
+  //   try {
+  //     const response = await markNotificationAsRead(notificationId);
+  //     if (response.status) {
+  //       setNotifications(notifications.map(notification => 
+  //         notification._id === notificationId 
+  //           ? { ...notification, isRead: true }
+  //           : notification
+  //       ));
+  //       setUnreadCount(prev => prev - 1);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error marking notification as read:", error);
+  //   }
+  // };
 
-  const handleMarkAllAsRead = async () => {
-    try {
-      const response = await markAllNotificationsAsRead();
-      if (response.status) {
-        setNotifications(notifications.map(notification => ({
-          ...notification,
-          isRead: true
-        })));
-        setUnreadCount(0);
-      }
-    } catch (error) {
-      console.error("Error marking all notifications as read:", error);
-    }
-  };
+  // const handleMarkAllAsRead = async () => {
+  //   try {
+  //     const response = await markAllNotificationsAsRead();
+  //     if (response.status) {
+  //       setNotifications(notifications.map(notification => ({
+  //         ...notification,
+  //         isRead: true
+  //       })));
+  //       setUnreadCount(0);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error marking all notifications as read:", error);
+  //   }
+  // };
 
-  const handleDeleteNotification = async (notificationId, e) => {
-    e.stopPropagation();
-    try {
-      const response = await deleteNotification(notificationId);
-      if (response.status) {
-        setNotifications(notifications.filter(n => n._id !== notificationId));
-        if (!notifications.find(n => n._id === notificationId)?.isRead) {
-          setUnreadCount(prev => prev - 1);
-        }
-      }
-    } catch (error) {
-      console.error("Error deleting notification:", error);
-    }
-  };
+  // const handleDeleteNotification = async (notificationId, e) => {
+  //   e.stopPropagation();
+  //   try {
+  //     const response = await deleteNotification(notificationId);
+  //     if (response.status) {
+  //       setNotifications(notifications.filter(n => n._id !== notificationId));
+  //       if (!notifications.find(n => n._id === notificationId)?.isRead) {
+  //         setUnreadCount(prev => prev - 1);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting notification:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const res = await getAllNotifications();
-      // console.log(res);
+  // useEffect(() => {
+  //   const fetchNotifications = async () => {
+  //     // const res = await getAllNotifications();
+  //     // console.log(res);
       
-      if (res.status) {
-        setNotifications(res.data);
-        setUnreadCount(res.data.filter(n => !n.isRead).length);
-      }
-    };
-    fetchNotifications();
-  }, []);
+  //     if (res.status) {
+  //       setNotifications(res.data);
+  //       setUnreadCount(res.data.filter(n => !n.isRead).length);
+  //     }
+  //   };
+  //   fetchNotifications();
+  // }, []);
 
 
   useEffect(() => {

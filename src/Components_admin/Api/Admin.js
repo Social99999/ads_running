@@ -43,22 +43,3 @@ export const updateAdminProfile = async (data) => {
     return { status: false, message: error.message };
   }
 };
-export const addAds = async (data) => {
-  try {
-      console.log(data);
-      
-      const response = await API.post(`/`, data);
-      console.log(response);
-      
-      if (response.status === 201) {
-          toast.success('Ads added successfully')
-          return { status: true, data: response.data }
-      } else {
-          toast.error('Ads not added')
-          return { status: false, message: response.response.data.message }
-      }
-  } catch (error) {
-      console.error('Error fetching cities:', error);
-      return { status: false, message: error.message };
-  }
-};

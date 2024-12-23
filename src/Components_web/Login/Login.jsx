@@ -5,8 +5,9 @@ import Image from "../../assets_web/illustration-dashboard.webp";
 import Logo from "../../assets_web/logoCreateBlack.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../Components_merchant/Api/Auth";
+// import { login } from "../../Components_merchant/Api/Auth";
 import io from 'socket.io-client';
+import { login } from "../Api/Webapi";
 
 const Login = ({ Login, setLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,7 @@ const Login = ({ Login, setLogin }) => {
     if (response.status) {
       localStorage.setItem("accessToken", response.data.token);
       socket.emit('authenticate', response.data.token); // Emit authentication event to the server
-      navigate("/");
+      navigate("/ads");
       setLogin(true);
     } else {
       setErrors({ apiError: response.message });

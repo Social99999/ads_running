@@ -89,7 +89,7 @@ function App() {
         {/* web */}
 
         <Route
-          path="/"
+          path="/ads"
           element={
             <Formate >
               <Mainbody />
@@ -105,7 +105,7 @@ function App() {
             </Formate>
           }
         />
-        <Route path="/login" element={<LoginWeb />} />
+        <Route path="/" element={<LoginWeb />} />
         <Route path="/register" element={<SignupWeb />} />
         <Route
           path="/tracking"

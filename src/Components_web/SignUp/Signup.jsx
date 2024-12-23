@@ -6,7 +6,7 @@ import Logo from "../../assets_web/logoCreateBlack.png";
 import GoogleSvg from "../../assets_web/tracking.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import { sendOtp, signup } from "../../Components_merchant/Api/Auth";
+// import { sendOtp, signup } from "../../Components_merchant/Api/Auth";
 
 // Validation Schema with Yup
 const validationSchema = Yup.object({
@@ -74,31 +74,31 @@ function Signup() {
     }
   };
 
-  const handleSendOtp = async (values, setErrors) => {
-    setOtpLoading(true);
-    const otpPayload = {
-      email: values.email,
-      contactNumber: values.contactNumber,
-      personType: "CUSTOMER",
-      // countryCode: values.address.country
-    };
+  // const handleSendOtp = async (values, setErrors) => {
+  //   setOtpLoading(true);
+  //   const otpPayload = {
+  //     email: values.email,
+  //     contactNumber: values.contactNumber,
+  //     personType: "CUSTOMER",
+  //     // countryCode: values.address.country
+  //   };
 
-    const response = await sendOtp(otpPayload);
-    // console.log(response);
+  //   // const response = await sendOtp(otpPayload);
+  //   // console.log(response);
 
-    if (response.status) {
-      setOtpSent(true);
-    } else {
-      setErrors({ apiError: response.message });
-    }
-    setOtpLoading(false);
-  };
+  //   if (response.status) {
+  //     setOtpSent(true);
+  //   } else {
+  //     setErrors({ apiError: response.message });
+  //   }
+  //   setOtpLoading(false);
+  // };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     setSubmitting(true);
 
     const formattedValue = { ...values, countryCode: values.address.country }
-    const response = await signup(formattedValue);
+    // const response = await signup(formattedValue);
     // console.log(response);
 
     if (response.status) {
@@ -219,7 +219,7 @@ function Signup() {
                     <div>
                       <button
                         type="button"
-                        onClick={() => handleSendOtp(values, setErrors)}
+                        // onClick={() => handleSendOtp(values, setErrors)}
                         disabled={otpLoading || otpSent}
                         className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#fff] ${
                           otpLoading || otpSent

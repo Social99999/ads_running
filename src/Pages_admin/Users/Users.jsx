@@ -87,6 +87,7 @@ const Users = () => {
               <th className="p-3">Contact</th>
               <th className="p-3">Login Time</th>
               <th className="p-3">Logout Time</th>
+              <th className="p-3">Active Time</th>
               <th className="p-3">Role</th>
               <th className="p-3">Actions</th>
             </tr>
@@ -135,6 +136,7 @@ const Users = () => {
                       : '-'}
                   </td>
 
+                  <td className="p-3">{user?.activeTime?.totalTime}</td>
                   <td className="p-3">{user?.role || '-'}</td>
                   <td className="table-head2">
                     <button className="show-btn m-2" onClick={() => handleShowInfo(user)}>
