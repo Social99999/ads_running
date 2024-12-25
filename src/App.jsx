@@ -38,6 +38,7 @@ import Profile from "./Pages_admin/Profile/Profile";
 import "react-toastify/dist/ReactToastify.css";
 import AddUser from "./Pages_admin/Users/AddUser";
 import AddDeliveryManAdmin from "./Pages_admin/DeliveryMan/AddDeliveryMan";
+import UserLoginHistory from "./Pages_admin/Users/UserLoginHistory";
 
 
 function App() {
@@ -148,6 +149,14 @@ function App() {
           element={
             <ProtectedRouteAdmin>
               <Dashboard />
+            </ProtectedRouteAdmin>
+          }
+        />
+        <Route
+            path="/merchant-login-history/:id"
+          element={
+            <ProtectedRouteAdmin>
+              <UserLoginHistory />
             </ProtectedRouteAdmin>
           }
         />

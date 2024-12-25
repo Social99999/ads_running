@@ -2,56 +2,33 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { getAllCity } from "../../Components_admin/Api/City";
-import { getAllCountry } from "../../Components_admin/Api/Country";
-import { addUser } from '../../Components_admin/Api/User'
+import { addUser } from "../../Components_web/Api/Webapi";
 
 const AddUser = () => {
-    const [cities, setCities] = useState([]);
 
     const initialValues = {
-        name: "",
+        username: "",
         email: "",
         password: "",
-        contactNumber: "",
-        countryCode: "",
-        createdByAdmin: true, // Default value
+        contact: "",
         address: {
             street: "",
             city: "",
-            postalCode: "",
-            country: ""
+            state: "",
+            pincode: ""
         }
     };
 
-    useEffect(() => {
-        const fetchCountriesAndCities = async () => {
-            const countriesResponse = await getAllCountry(1, 10);
-            const citiesResponse = await getAllCity(1, 10);
-
-            if (citiesResponse.status) setCities(citiesResponse.data.data);
-        };
-        fetchCountriesAndCities();
-    }, []);
-
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Name is required"),
+        username: Yup.string().required("Username is required").min(3, "Username must be at least 3 characters long"),
         email: Yup.string().email("Invalid email format").required("Email is required"),
-        password: Yup.string()
-            .matches(
-                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-                "Password must be at least 8 characters, include an uppercase letter, a lowercase letter, and a number"
-            )
-            .required("Password is required"),
-        contactNumber: Yup.string().required("Contact is required"),
-        countryCode: Yup.string().required("Country code is required"),
+        password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters long"),
+        contact: Yup.string().required("Contact is required").matches(/^[0-9]{10}$/, "Please enter a valid 10-digit contact number"),
         address: Yup.object().shape({
             street: Yup.string().required("Street address is required"),
             city: Yup.string().required("City is required"),
-            postalCode: Yup.string()
-                .matches(/^\d{6}$/, "Postal code must be exactly 6 digits")
-                .required("Postal code is required"),
-            country: Yup.string().required("Country is required"),
+            state: Yup.string().required("State is required"),
+            pincode: Yup.string().required("Pincode is required").matches(/^[0-9]{6}$/, "Please enter a valid 6-digit pincode"),
         }),
     });
     
@@ -73,18 +50,18 @@ const AddUser = () => {
         >
             {(formik) => (
                 <Form className="user-form">
-                    {/* Name Field */}
+                    {/* Username Field */}
                     <div className="row input-box">
                         <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
 
                             <Field
                                 type="text"
-                                name="name"
+                                name="username"
                                 className="form-control"
-                                placeholder="Name"
+                                placeholder="Username"
                                 style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
                             />
-                            <ErrorMessage name="name" component="div" className="error text-danger ps-2" />
+                            <ErrorMessage name="username" component="div" className="error text-danger ps-2" />
                         </div>
 
                         {/* Email Field */}
@@ -113,29 +90,17 @@ const AddUser = () => {
                             <ErrorMessage name="password" component="div" className="error text-danger ps-2" />
                         </div>
 
-                        {/* Contact Number and Country Code */}
+                        {/* Contact Number */}
 
                         <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
                             <Field
                                 type="text"
-                                name="contactNumber"
+                                name="contact"
                                 className="form-control"
                                 placeholder="Contact Number"
                                 style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
                             />
-                            <ErrorMessage name="contactNumber" component="div" className="error text-danger ps-2" />
-                        </div>
-
-
-                        <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
-                            <Field
-                                type="text"
-                                name="countryCode"
-                                className="form-control"
-                                placeholder="Country Code"
-                                style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
-                            />
-                            <ErrorMessage name="countryCode" component="div" className="error text-danger ps-2" />
+                            <ErrorMessage name="contact" component="div" className="error text-danger ps-2" />
                         </div>
 
                         {/* Address Fields */}
@@ -151,41 +116,37 @@ const AddUser = () => {
                             <ErrorMessage name="address.street" component="div" className="error text-danger ps-2" />
                         </div>
 
-
                         <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
-                            <Field as="select" name="address.city" className="form-select" style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}>
-                                <option value="" label="Select City" />
-                                {cities.map((city) => (
-                                    <option key={city.cityId} value={city.cityName}>
-                                        {city.cityName}
-                                    </option>
-                                ))}
-                            </Field>
+                            <Field
+                                type="text"
+                                name="address.city"
+                                className="form-control"
+                                placeholder="City"
+                                style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
+                            />
                             <ErrorMessage name="address.city" component="div" className="error text-danger ps-2" />
                         </div>
 
-
                         <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
                             <Field
                                 type="text"
-                                name="address.postalCode"
+                                name="address.state"
                                 className="form-control"
-                                placeholder="Postal Code"
+                                placeholder="State"
                                 style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
                             />
-                            <ErrorMessage name="address.postalCode" component="div" className="error text-danger ps-2" />
+                            <ErrorMessage name="address.state" component="div" className="error text-danger ps-2" />
                         </div>
 
-
                         <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
                             <Field
                                 type="text"
-                                name="address.country"
+                                name="address.pincode"
                                 className="form-control"
-                                placeholder="Country"
+                                placeholder="Pincode"
                                 style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
                             />
-                            <ErrorMessage name="address.country" component="div" className="error text-danger ps-2" />
+                            <ErrorMessage name="address.pincode" component="div" className="error text-danger ps-2" />
                         </div>
                     </div>
 

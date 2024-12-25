@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "../../assets_admin/search.png";
 import add from "../../assets_admin/add.png";
 import show from "../../assets_admin/show.png";
+import edit from "../../assets_admin/edit.png";
 import ViewUser from "../../Components_admin/ViewUser/ViewUser";
 import Pagination from "../../Components_admin/Pagination/Pagination";
 import { getAllUsers } from "../../Components_admin/Api/User"; // Fetch function
 import UserInfoModal from "./UserInfoPopup";
 import Loader from "../../Components_admin/Loader/Loader";
+import deleteimg from "../../assets_admin/deleteimg.png";
+import locationimg from "../../assets_admin/locationimg.png";
+import DeleteModal from "../../Components_admin/DeleteModal";
+import { deleteUser } from "../../Components_web/Api/Webapi";
+import EditUserModal from "./EditUserModal";
+import EditUser from "../EditUser/EditUser";
 
 const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +24,11 @@ const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const closeDeleteModal = () => setShowDeleteModal(false);
 
+  const navigate = useNavigate();
   // Fetch users from API
   const fetchUsers = async () => {
     const response = await getAllUsers(currentPage, usersPerPage);
@@ -50,6 +61,34 @@ const Users = () => {
     setCurrentPage(1); // Reset pagination to the first page when search changes
   };
 
+  const handleDeleteClick = (user) => {
+    setSelectedUser(user);
+    setShowDeleteModal(true);
+  };
+  const handleShowLoginHistory = (user) => {
+    // Assuming the route for merchant login history is /merchant-login-history/:id
+    const url = `/merchant-login-history/${user.id}`;
+    window.location.href = url;
+  };
+  const confirmDelete = async () => {
+    if (selectedUser) {
+      const response = await deleteUser(selectedUser._id);
+      if (response.status) {
+        fetchUsers();
+      }
+      closeDeleteModal();
+    }
+  };
+
+  const closeEditModal = () => {
+    setShowEditModal(false);
+    setSelectedUser(null);
+  };
+
+  const handleEditClick = (user) => {
+    setSelectedUser(user);
+    setShowEditModal(true);
+  };
   return (
     <div className="">
       <div className="d-flex justify-content-between align-items-center nav-bar pb-3">
@@ -142,6 +181,29 @@ const Users = () => {
                     <button className="show-btn m-2" onClick={() => handleShowInfo(user)}>
                       <img src={show} alt="Show" className="mx-auto" />
                     </button>
+                    <button
+                          className="edit-btn ms-1"
+                          onClick={() => handleEditClick(user)}
+                        >
+                          <img src={edit} alt="Edit" className="mx-auto" />
+                        </button>
+                    <button
+                          className="delete-btn m-2"
+                          onClick={() => handleDeleteClick(user)}
+                        >
+                          <img
+                            src={deleteimg}
+                            alt="Delete"
+                            className="mx-auto"
+                          />
+                        </button>
+                    <button className="show-btn m-2" onClick={() => navigate(`/merchant-login-history/${user._id}`)}>
+                      <img
+                            src={locationimg}
+                            alt="Edit"
+                            className="mx-auto"
+                          />
+                    </button>
                   </td>
                 </tr>
               ))
@@ -156,6 +218,22 @@ const Users = () => {
         <UserInfoModal
           user={selectedUser}
           onHide={() => setIsInfoModalOpen(false)} // Close modal function
+        />
+      )}
+
+      {showDeleteModal && (
+        <DeleteModal
+          onDelete={confirmDelete}
+          onHide={closeDeleteModal}
+          text="User"
+        />
+      )}
+
+      {showEditModal && (
+        <EditUser
+          user={selectedUser}
+          onHide={closeEditModal}
+          
         />
       )}
     </div>

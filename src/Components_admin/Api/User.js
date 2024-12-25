@@ -107,24 +107,4 @@ export const getRejectWithdraw = async (page, pageLimit) => {
   }
 };
 
-export const addUser = async (data) => {
-  try {
-    const response = await API.post(`/users/addUser`, data);
-    // console.log('response', response);
 
-    if (response.status === 200) {
-      toast.success(response.data.message);
-      return { status: true, data: response.data.data };
-    } else {
-      // console.log('API error', response.response.data.message)
-      toast.error(response.response.data.message || response.message);
-      return {
-        status: false,
-        message: response.response.data.message || response.message,
-      };
-    }
-  } catch (error) {
-    console.error("Error Add  Customer:", error);
-    return { status: false, message: error.message };
-  }
-};
