@@ -11,6 +11,7 @@ const AddUser = () => {
         email: "",
         password: "",
         contact: "",
+        category: "",
         address: {
             street: "",
             city: "",
@@ -24,6 +25,7 @@ const AddUser = () => {
         email: Yup.string().email("Invalid email format").required("Email is required"),
         password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters long"),
         contact: Yup.string().required("Contact is required").matches(/^[0-9]{10}$/, "Please enter a valid 10-digit contact number"),
+        category: Yup.string().required("Category is required"),
         address: Yup.object().shape({
             street: Yup.string().required("Street address is required"),
             city: Yup.string().required("City is required"),
@@ -101,6 +103,19 @@ const AddUser = () => {
                                 style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
                             />
                             <ErrorMessage name="contact" component="div" className="error text-danger ps-2" />
+                        </div>
+
+                        {/* Category Field */}
+
+                        <div className="input-error col-xxl-5 col-xl-4 col-lg-5 col-md-6 col-sm-5 col-12 mb-3">
+                            <Field
+                                type="text"
+                                name="category"
+                                className="form-control"
+                                placeholder="Category"
+                                style={{ height: "4.5em", border: "1px solid #E6E6E6", borderRadius: "5px" }}
+                            />
+                            <ErrorMessage name="category" component="div" className="error text-danger ps-2" />
                         </div>
 
                         {/* Address Fields */}

@@ -8,6 +8,7 @@ function Dashboard() {
   const [ads, setAds] = useState([]);
   const [updateModal, setUpdateModal] = useState(false);
   const [updateAdData, setUpdateAdData] = useState(null);
+  const [category, setCategory] = useState([]);
 
   const fetchAds = async () => {
     try {
@@ -25,11 +26,13 @@ function Dashboard() {
     companyName: '',
     contactNumber: '',
     image: '', // Base64 string for the image
+    category: '',
   };
 
   const validationSchema = Yup.object({
     companyName: Yup.string().required('Company Name is required'),
     contactNumber: Yup.string().required('Contact Number is required'),
+    category: Yup.string().required('Category is required'),
   });
 
   const handleImageChange = (e, setFieldValue) => {
@@ -111,6 +114,10 @@ function Dashboard() {
               <Field type="text" name="contactNumber" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
             </div>
             <div className="flex flex-col">
+              <label htmlFor="category" className="text-sm font-medium text-gray-700">Category</label>
+              <Field type="text" name="category" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+            </div>
+            <div className="flex flex-col">
               <label htmlFor="image" className="text-sm font-medium text-gray-700">Upload Image</label>
               <input
                 type="file"
@@ -134,6 +141,7 @@ function Dashboard() {
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2">Company Name</th>
               <th className="border border-gray-300 px-4 py-2">Contact Number</th>
+              <th className="border border-gray-300 px-4 py-2">Category</th>
               <th className="border border-gray-300 px-4 py-2">Image</th>
               <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
@@ -143,6 +151,7 @@ function Dashboard() {
               <tr key={ad._id}>
                 <td className="border border-gray-300 px-4 py-2">{ad.companyName}</td>
                 <td className="border border-gray-300 px-4 py-2">{ad.contactNumber}</td>
+                <td className="border border-gray-300 px-4 py-2">{ad.category}</td>
                 <td className="border border-gray-300 px-4 py-2">
                   <img src={ad.image} alt="Ad" className="w-12 h-12 object-cover rounded" />
                 </td>
@@ -175,6 +184,7 @@ function Dashboard() {
                 companyName: updateAdData.companyName || '',
                 contactNumber: updateAdData.contactNumber || '',
                 image: updateAdData.image || '',
+                category: updateAdData.category || '',
               }}
               enableReinitialize={true}
               validationSchema={validationSchema}
@@ -202,6 +212,16 @@ function Dashboard() {
                     <Field
                       type="text"
                       name="contactNumber"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="category" className="text-sm font-medium text-gray-700">
+                      Category
+                    </label>
+                    <Field
+                      type="text"
+                      name="category"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>

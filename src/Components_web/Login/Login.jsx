@@ -37,6 +37,7 @@ const Login = ({ Login, setLogin }) => {
     console.log(response);
     if (response.status) {
       localStorage.setItem("accessToken", response.data.token);
+      localStorage.setItem("UserData", JSON.stringify(response.data.user));
       socket.emit('authenticate', response.data.token); // Emit authentication event to the server
       navigate("/ads");
       setLogin(true);

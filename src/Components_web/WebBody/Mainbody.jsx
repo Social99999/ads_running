@@ -9,11 +9,18 @@ function Mainbody() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("UserData"));
+    console.log("userData", userData);
     const fetchAds = async () => {
       try {
         setIsLoading(true);
         const response = await getWebHome();
-        setAds(response.data.data);
+        console.log("response", response.data.data);
+        if (response.data.data.length > 0) {
+            setAds(response.data.data.filter(ad => ad.category !== userData.category));
+        } else {
+          setAds([]);
+        }
       } catch (error) {
         console.error("Error fetching ads:", error);
       } finally {
@@ -40,7 +47,7 @@ function Mainbody() {
         <img
           src={ads[currentIndex]?.image}
           alt={`Ad ${currentIndex + 1}`}
-          style={{ height: "700px", width: "100%" }}
+          style={{ height: "1080px", width: "1920px" }}
         />
       )}
     </div>
